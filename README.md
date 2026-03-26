@@ -11,9 +11,9 @@ Users can:
 - Save favorite recipes and create collections
 
 Team Members:
-> Darius Sankar – 816036271 
-> Franchesca Ammon – 816040884 
-> Jael Hamilton – 816035832 
+> Darius Sankar – 816036271 |
+> Franchesca Ammon – 816040884 |
+> Jael Hamilton – 816035832 |
 > Jasmin Hippolyte – 816036300 
 
 Website Goals
