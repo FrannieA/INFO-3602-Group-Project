@@ -319,3 +319,233 @@ function simmerdown_enqueue_homepage_styles() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'simmerdown_enqueue_homepage_styles' );
+
+
+/**
+ * Register Recipe Custom Post Type
+ */
+function simmerdown_register_recipe_cpt() {
+    $labels = array(
+        'name'                  => _x( 'Recipes', 'Post Type General Name', 'recipes-blog' ),
+        'singular_name'         => _x( 'Recipe', 'Post Type Singular Name', 'recipes-blog' ),
+        'menu_name'             => __( 'Recipes', 'recipes-blog' ),
+        'name_admin_bar'        => __( 'Recipe', 'recipes-blog' ),
+        'archives'              => __( 'Recipe Archives', 'recipes-blog' ),
+        'attributes'            => __( 'Recipe Attributes', 'recipes-blog' ),
+        'parent_item_colon'     => __( 'Parent Recipe:', 'recipes-blog' ),
+        'all_items'             => __( 'All Recipes', 'recipes-blog' ),
+        'add_new_item'          => __( 'Add New Recipe', 'recipes-blog' ),
+        'add_new'               => __( 'Add New', 'recipes-blog' ),
+        'new_item'              => __( 'New Recipe', 'recipes-blog' ),
+        'edit_item'             => __( 'Edit Recipe', 'recipes-blog' ),
+        'update_item'           => __( 'Update Recipe', 'recipes-blog' ),
+        'view_item'             => __( 'View Recipe', 'recipes-blog' ),
+        'view_items'            => __( 'View Recipes', 'recipes-blog' ),
+        'search_items'          => __( 'Search Recipe', 'recipes-blog' ),
+        'not_found'             => __( 'Not found', 'recipes-blog' ),
+        'not_found_in_trash'    => __( 'Not found in Trash', 'recipes-blog' ),
+        'featured_image'        => __( 'Featured Image', 'recipes-blog' ),
+        'set_featured_image'    => __( 'Set featured image', 'recipes-blog' ),
+        'remove_featured_image' => __( 'Remove featured image', 'recipes-blog' ),
+        'use_featured_image'    => __( 'Use as featured image', 'recipes-blog' ),
+        'insert_into_item'      => __( 'Insert into recipe', 'recipes-blog' ),
+        'uploaded_to_this_item' => __( 'Uploaded to this recipe', 'recipes-blog' ),
+        'items_list'            => __( 'Recipes list', 'recipes-blog' ),
+        'items_list_navigation' => __( 'Recipes list navigation', 'recipes-blog' ),
+        'filter_items_list'     => __( 'Filter recipes list', 'recipes-blog' ),
+    );
+    
+    $args = array(
+        'label'                 => __( 'Recipe', 'recipes-blog' ),
+        'description'           => __( 'Recipe posts for budget healthy meals', 'recipes-blog' ),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields' ),
+        'taxonomies'            => array( 'category', 'post_tag' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 5,
+        'menu_icon'             => 'dashicons-carrot',
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'rewrite'               => array( 'slug' => 'recipes' ),
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+        'show_in_rest'          => true,  // Important for Gutenberg editor
+    );
+    
+    register_post_type( 'recipe', $args );
+}
+add_action( 'init', 'simmerdown_register_recipe_cpt', 0 );
+
+/**
+ * Add Ingredients Meta Box for Recipes
+ */
+function simmerdown_add_recipe_metaboxes() {
+    add_meta_box(
+        'simmerdown_recipe_ingredients',
+        'Recipe Ingredients',
+        'simmerdown_recipe_ingredients_callback',
+        'recipe',
+        'normal',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'simmerdown_add_recipe_metaboxes' );
+
+/**
+ * Ingredients Meta Box HTML
+ */
+function simmerdown_recipe_ingredients_callback( $post ) {
+    wp_nonce_field( 'simmerdown_recipe_ingredients', 'simmerdown_recipe_ingredients_nonce' );
+    $ingredients = get_post_meta( $post->ID, '_recipe_ingredients', true );
+    ?>
+    <p>
+        <label for="recipe_ingredients">Enter ingredients (separate with commas):</label>
+        <textarea id="recipe_ingredients" name="recipe_ingredients" rows="5" style="width:100%;"><?php echo esc_textarea( $ingredients ); ?></textarea>
+        <span class="description">Example: tomatoes, onion, garlic, olive oil, pasta, salt</span>
+    </p>
+    <?php
+}
+
+/**
+ * Save Ingredients Meta Box Data
+ */
+function simmerdown_save_recipe_ingredients( $post_id ) {
+    // Check nonce
+    if ( ! isset( $_POST['simmerdown_recipe_ingredients_nonce'] ) ) {
+        return;
+    }
+    
+    if ( ! wp_verify_nonce( $_POST['simmerdown_recipe_ingredients_nonce'], 'simmerdown_recipe_ingredients' ) ) {
+        return;
+    }
+    
+    // Check autosave
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+    
+    // Check permissions
+    if ( isset( $_POST['post_type'] ) && 'recipe' == $_POST['post_type'] ) {
+        if ( ! current_user_can( 'edit_page', $post_id ) ) {
+            return;
+        }
+    }
+    
+    // Save the ingredients
+    if ( isset( $_POST['recipe_ingredients'] ) ) {
+        update_post_meta( $post_id, '_recipe_ingredients', sanitize_textarea_field( $_POST['recipe_ingredients'] ) );
+    }
+}
+add_action( 'save_post_recipe', 'simmerdown_save_recipe_ingredients' );
+
+/**
+ * Add Prep Time Meta Box
+ */
+function simmerdown_add_prep_time_metabox() {
+    add_meta_box(
+        'simmerdown_recipe_prep_time',
+        'Preparation Time',
+        'simmerdown_prep_time_callback',
+        'recipe',
+        'side',
+        'default'
+    );
+}
+add_action( 'add_meta_boxes', 'simmerdown_add_prep_time_metabox' );
+
+function simmerdown_prep_time_callback( $post ) {
+    $prep_time = get_post_meta( $post->ID, '_recipe_prep_time', true );
+    ?>
+    <p>
+        <label for="recipe_prep_time">Time in minutes:</label>
+        <input type="number" id="recipe_prep_time" name="recipe_prep_time" value="<?php echo esc_attr( $prep_time ); ?>" style="width:100%;">
+        <span class="description">e.g., 30 for 30 minutes</span>
+    </p>
+    <?php
+}
+
+function simmerdown_save_prep_time( $post_id ) {
+    if ( isset( $_POST['recipe_prep_time'] ) ) {
+        update_post_meta( $post_id, '_recipe_prep_time', intval( $_POST['recipe_prep_time'] ) );
+    }
+}
+add_action( 'save_post_recipe', 'simmerdown_save_prep_time' );
+
+/**
+ * Add Budget Category Meta Box
+ */
+function simmerdown_add_budget_metabox() {
+    add_meta_box(
+        'simmerdown_recipe_budget',
+        'Budget Category',
+        'simmerdown_budget_callback',
+        'recipe',
+        'side',
+        'default'
+    );
+}
+add_action( 'add_meta_boxes', 'simmerdown_add_budget_metabox' );
+
+function simmerdown_budget_callback( $post ) {
+    $budget = get_post_meta( $post->ID, '_recipe_budget', true );
+    ?>
+    <p>
+        <select id="recipe_budget" name="recipe_budget" style="width:100%;">
+            <option value="budget" <?php selected( $budget, 'budget' ); ?>>💰 Budget (Under $5)</option>
+            <option value="moderate" <?php selected( $budget, 'moderate' ); ?>>💰💰 Moderate ($5-$10)</option>
+            <option value="splurge" <?php selected( $budget, 'splurge' ); ?>>💰💰💰 Splurge ($10+)</option>
+        </select>
+    </p>
+    <?php
+}
+
+function simmerdown_save_budget( $post_id ) {
+    if ( isset( $_POST['recipe_budget'] ) ) {
+        update_post_meta( $post_id, '_recipe_budget', sanitize_text_field( $_POST['recipe_budget'] ) );
+    }
+}
+add_action( 'save_post_recipe', 'simmerdown_save_budget' );
+
+
+/**
+ * Add Dietary Preferences Meta Box
+ */
+function simmerdown_add_diet_metabox() {
+    add_meta_box(
+        'simmerdown_recipe_diet',
+        'Dietary Preferences',
+        'simmerdown_diet_callback',
+        'recipe',
+        'side',
+        'default'
+    );
+}
+add_action( 'add_meta_boxes', 'simmerdown_add_diet_metabox' );
+
+function simmerdown_diet_callback( $post ) {
+    $diet = get_post_meta( $post->ID, '_recipe_diet', true );
+    ?>
+    <p>
+        <select id="recipe_diet" name="recipe_diet" style="width:100%;">
+            <option value="">None / Any</option>
+            <option value="vegetarian" <?php selected( $diet, 'vegetarian' ); ?>>Vegetarian</option>
+            <option value="vegan" <?php selected( $diet, 'vegan' ); ?>>Vegan</option>
+            <option value="gluten_free" <?php selected( $diet, 'gluten_free' ); ?>>Gluten-Free</option>
+            <option value="dairy_free" <?php selected( $diet, 'dairy_free' ); ?>>Dairy-Free</option>
+        </select>
+    </p>
+    <?php
+}
+
+function simmerdown_save_diet( $post_id ) {
+    if ( isset( $_POST['recipe_diet'] ) ) {
+        update_post_meta( $post_id, '_recipe_diet', sanitize_text_field( $_POST['recipe_diet'] ) );
+    }
+}
+add_action( 'save_post_recipe', 'simmerdown_save_diet' );

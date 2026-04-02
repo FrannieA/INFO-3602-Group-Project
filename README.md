@@ -30,4 +30,17 @@ Purpose
 3. Build community through user-submitted recipes, reviews, and ratings
 4. Educate users on budget-friendly cooking techniques and ingredient substitutions
 
+------------------------------------------------------------------------------
 
+How to Add A Recipe:
+
+1. In WordPress admin sidebar, go to Recipes → Add New
+2. Enter the Title
+3. Copy/paste the Content into the main editor area
+4. Scroll down to Recipe Ingredients box → paste ingredients
+5. Enter Prep Time (just the number, e.g., 15)
+6. Select Budget Category
+7. Click Publish
+
+Test Ingredient Match Page
+Now go to: http://simmerdown.local/ingredient-match
