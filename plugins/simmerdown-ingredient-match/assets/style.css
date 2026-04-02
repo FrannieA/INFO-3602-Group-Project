@@ -1,0 +1,9 @@
+@media (max-width: 768px) {
+    .simmerdown-im-container input[type="text"] {
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+    .recipe-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
