@@ -131,6 +131,8 @@ $recipes_blog_sub_menu_text_color = get_theme_mod('recipes_blog_sub_menu_text_co
                                             wp_nav_menu(
                                                 array(
                                                     'theme_location' => 'primary',
+                                                    'menu_class'     => 'primary-menu',
+                                                    'fallback_cb'    => false,
                                                 )
                                             );
                                             ?>
@@ -177,4 +179,10 @@ $recipes_blog_sub_menu_text_color = get_theme_mod('recipes_blog_sub_menu_text_co
     <div id="content" class="site-content">
         <div class="asterthemes-wrapper">
             <div class="asterthemes-page">
+                <!-- Custom Breadcrumbs by SimmerDown Group -->
+                <?php 
+                if (!is_front_page() && !is_home()) {
+                    simmerdown_custom_breadcrumbs();
+                }
+                ?>
 <?php } ?>

@@ -549,3 +549,74 @@ function simmerdown_save_diet( $post_id ) {
     }
 }
 add_action( 'save_post_recipe', 'simmerdown_save_diet' );
+
+
+
+/**
+ * Custom Breadcrumb Function for SimmerDown
+ */
+function simmerdown_custom_breadcrumbs() {
+    
+    // Settings
+    $separator = ' » ';
+    $home_text = 'Home';
+    $before = '<span class="current">';
+    $after = '</span>';
+    
+    // Don't show on homepage
+    if (is_front_page() || is_home()) {
+        return;
+    }
+    
+    echo '<div class="simmerdown-breadcrumbs" style="padding: 10px 0; margin-bottom: 20px; font-size: 14px; color: #aaa;">';
+    echo '<a href="' . home_url() . '">' . $home_text . '</a>' . $separator;
+    
+    // Single Recipe Page
+    if (is_singular('recipe')) {
+        echo '<a href="' . home_url('/recipes-filter/') . '">Recipes</a>' . $separator;
+        echo $before . get_the_title() . $after;
+    }
+    // Recipe Archive Page
+    elseif (is_post_type_archive('recipe')) {
+        echo $before . 'All Recipes' . $after;
+    }
+    // Single Review Page
+    elseif (is_singular('recipe_review')) {
+        echo '<a href="' . home_url('/post-reviews/') . '">Reviews</a>' . $separator;
+        echo $before . get_the_title() . $after;
+    }
+    // Review Archive
+    elseif (is_post_type_archive('recipe_review')) {
+        echo $before . 'All Reviews' . $after;
+    }
+    // Regular Pages
+    elseif (is_page()) {
+        global $post;
+        if ($post->post_parent) {
+            $parent_id = $post->post_parent;
+            $parents = array();
+            while ($parent_id) {
+                $page = get_page($parent_id);
+                $parents[] = '<a href="' . get_permalink($page->ID) . '">' . get_the_title($page->ID) . '</a>';
+                $parent_id = $page->post_parent;
+            }
+            $parents = array_reverse($parents);
+            echo implode($separator, $parents) . $separator;
+        }
+        echo $before . get_the_title() . $after;
+    }
+    // Category/Tag Archives
+    elseif (is_category() || is_tag()) {
+        echo $before . single_cat_title('', false) . $after;
+    }
+    // Search Results
+    elseif (is_search()) {
+        echo $before . 'Search Results for: ' . get_search_query() . $after;
+    }
+    // 404 Page
+    elseif (is_404()) {
+        echo $before . 'Page Not Found' . $after;
+    }
+    
+    echo '</div>';
+}
