@@ -7,8 +7,10 @@ if ( is_front_page() && is_home() ) {
 } elseif ( is_front_page() && ! is_home() ) {
 	?>
 	<main id="primary" class="site-main">
-		<?php require get_template_directory() . '/sections/sections.php'; ?>
-		<?php recipes_blog_homepage_sections(); ?>
+    <?php require get_template_directory() . '/sections/sections.php'; ?>
+    <?php recipes_blog_homepage_sections(); ?>
+    <?php require get_template_directory() . '/sections/featured-recipes.php'; ?>
+    <?php require get_template_directory() . '/sections/homepage-about.php'; ?>
 	</main>
 	<?php
 }
