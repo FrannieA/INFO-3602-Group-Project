@@ -7,8 +7,8 @@
 
 ## Team Members
 
-| Name | Student ID | Role |
-|------|------------|------|
+| Name | Student ID |
+|------|------------|
 | Jasmin Hippolyte | 816036300 |
 | Franchesca Ammon | 816040884 |
 | Darius Sankar | 816036271 |
