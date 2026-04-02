@@ -1,5 +1,7 @@
 <?php
 /**
+ * Template Name: Write a Review Child Page
+ * Description: Child page of Post & Reviews. Renders the review submission form.
  * Child page of Post & Reviews.
  * Renders the submission form by calling recipe_reviews_render_form()
  * Login is required; guests see a login/register prompt instead.
