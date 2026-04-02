@@ -1,0 +1,128 @@
+.simmerdown-reg-container {
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.simmerdown-reg-form-wrapper {
+    background: #f5f5f51e;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.simmerdown-reg-form-wrapper h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 24px;
+}
+
+.simmerdown-reg-field {
+    margin-bottom: 20px;
+}
+
+.simmerdown-reg-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #ddd;
+}
+
+.simmerdown-reg-field input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 16px;
+}
+
+.simmerdown-reg-field input:focus {
+    outline: none;
+    border-color: #ff7a00;
+}
+
+.simmerdown-reg-field small {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+    font-size: 12px;
+}
+
+.simmerdown-reg-field.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.simmerdown-reg-field.checkbox input {
+    width: auto;
+    margin-right: 10px;
+}
+
+.simmerdown-reg-submit {
+    background: #ff7a00;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.simmerdown-reg-submit:hover {
+    background: #e66900;
+}
+
+.simmerdown-reg-login-link,
+.simmerdown-reg-register-link {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.simmerdown-reg-login-link a,
+.simmerdown-reg-register-link a {
+    color: #ff7a00;
+    text-decoration: none;
+}
+
+.simmerdown-reg-login-link a:hover,
+.simmerdown-reg-register-link a:hover {
+    text-decoration: underline;
+}
+
+.simmerdown-reg-msg {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.simmerdown-reg-msg.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.simmerdown-reg-msg.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.simmerdown-reg-btn {
+    display: inline-block;
+    background: #ff7a00;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .simmerdown-reg-form-wrapper {
+        padding: 20px;
+    }
+}
