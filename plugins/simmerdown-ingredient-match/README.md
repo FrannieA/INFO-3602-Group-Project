@@ -1,6 +1,6 @@
 # SimmerDown - Ingredient Match Plugin
 
-**Author:** Jasmin Hippolyte (816036300)  
+**Author:** SimmerDown Group  
 **Version:** 1.0.0  
 **Course:** INFO3602 - Web Programming and Technologies II
 
@@ -26,7 +26,7 @@ This plugin allows users to find recipes based on the ingredients they have at h
 
 ### Method 1: Shortcode
 
-Add the following shortcode to any page or post: [ingredient_match] 
+Add the following shortcode to any page or post: `[ingredient_match]`
 
 
 ### Method 2: Page Template
