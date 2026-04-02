@@ -306,3 +306,16 @@ function recipes_blog_blog_post_featured_image_dimension(){
 	}
 	return false;
 }
+
+// Enqueue SimmerDown's CSS for home
+function simmerdown_enqueue_homepage_styles() {
+    if ( is_front_page() ) {
+        wp_enqueue_style(
+            'simmerdown-homepage',
+            get_template_directory_uri() . '/simmerdown-homepage.css',
+            array( 'recipes-blog-style' ),
+            '1.0.0'
+        );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'simmerdown_enqueue_homepage_styles' );
