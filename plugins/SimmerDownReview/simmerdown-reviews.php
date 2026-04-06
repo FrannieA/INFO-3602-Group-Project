@@ -131,22 +131,8 @@ function recipe_reviews_setup_roles() {
         $editor->add_cap( 'edit_published_posts' );
     }
 
-    // Custom role: Recipe Reviewer — can submit but not publish (pending moderation)
-    if ( ! get_role( 'recipe_reviewer' ) ) {
-        add_role( 'recipe_reviewer', __( 'Recipe Reviewer', 'recipes-blog' ), array(
-            'read'          => true,
-            'edit_posts'    => true,
-            'delete_posts'  => false,
-            'publish_posts' => false,
-            'upload_files'  => true,
-        ) );
-    }
 }
 
-register_deactivation_hook( __FILE__, 'recipe_reviews_cleanup_roles' );
-function recipe_reviews_cleanup_roles() {
-    remove_role( 'recipe_reviewer' );
-}
 
 /* Frontend processing */
 
