@@ -7,12 +7,12 @@
 
 ## Team Members
 
-| Name | Student ID |
-|------|------------|
-| Jasmin Hippolyte | 816036300 |
-| Franchesca Ammon | 816040884 |
-| Darius Sankar | 816036271 |
-| Jael Hamilton | 816035832 |
+| Name | Student ID |Primary Role | Technical Contributions |
+|------|------------|-------------|-------------------------|
+| Jasmin Hippolyte | 816036300 |UI/UX & Logic Lead | Visual Interface Design and the "Ingredient Match" Search Plugin logic/complex query.| 
+| Franchesca Ammon | 816040884 | Engagement Developer |Reviews & Comments system, including the Star Rating custom post type and moderation workflow.|
+| Darius Sankar | 816036271 | Frontend Developer | Front Page PHP template construction and Homepage Hero section implementation. |
+| Jael Hamilton | 816035832 | System Architect & DevOps | Site Hosting (InfinityFree), Global CSS Styling, Login/Auth Workflow, and Multi-role UX Testing (Subscriber Account).|
 
 ## Project Overview
 
@@ -26,7 +26,7 @@ The site allows users to:
 
 ## Live Site
 
-**URL:** [Website-URL]
+**URL:** https://simmerdown.whf.bz/
 
 ## Technology Stack
 
@@ -204,6 +204,10 @@ Post & Reviews (Parent Page)
 | Editor | Can publish and manage all reviews |
 | Recipe Reviewer | Can submit reviews (pending moderation), read content |
 
+To ensure robust Quality Assurance, the Administrator (Jael) maintained a dedicated 
+Subscriber account. This allowed for 'Black-Box Testing' of the front-end submission forms and 
+comment sections, ensuring that non-privileged users could not access the WP-Admin 
+dashboard while still interacting with the SimmerDown community features.
 
 ## Front-End Features
 
