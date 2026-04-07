@@ -28,6 +28,9 @@ The site allows users to:
 
 **URL:** https://simmerdown.whf.bz/
 
+## Github Link
+**URL:** https://github.com/FrannieA/INFO-3602-Group-Project
+
 ## Technology Stack
 
 | Tool | Purpose |
